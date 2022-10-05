@@ -91,5 +91,28 @@ export default {
             this.$router.push('/home');
         }
     },
+    methods: {
+        handleRegister(user) {
+            this.message = '';
+            this.successful = false;
+            this.loading = true;
+            this.$store.dispatch('auth/register', user).then(
+                (response) => {
+                    if (response.state === "success") {
+                        this.$router.push('/login');
+                    } else {
+                        this.loading = false;
+                        this.message = response.msg;
+                    }
+                },
+                (error) => {
+                    this.message =
+                        (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+                    this.successful = false;
+                    this.loading = false;
+                }
+            );
+        },
+    },
 };
 </script>
