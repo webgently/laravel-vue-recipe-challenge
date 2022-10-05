@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,8 @@ Route::get('/{any}', function () {
 
 Route::post('/api/auth/register', [AuthController::class, 'register']);
 Route::post('/api/auth/login', [AuthController::class, 'login']);
+
+Route::post('/api/admin/add', [AdminController::class, 'add']);
+Route::post('/api/admin/update/{id}', [AdminController::class, 'update']);
+Route::post('/api/admin/delete/{id}', [AdminController::class, 'delete']);
+Route::post('/api/admin/getAll', [AdminController::class, 'getAll']);
