@@ -32,6 +32,46 @@
             </div>
         </div>
     </nav>
+
+    <div class="pt-24">
+        <h1 class="text-white text-4xl text-center">Recipe Box</h1>
+        <div class="xl:flex lg:flex md:flex block xl:px-20 lg:px-10 md:px-4 sm:px-16 px-4 py-10">
+            <div class="xl:w-1/4 lg:w-1/4 md:w-1/4 w-full mr-4">
+                <div class="flex justify-between py-2">
+                    <p class="text-white xl:text-3xl lg:text-2xl md:text-xl sm:text-lg text-md">Recipes</p>
+                    <div class="flex items-center">
+                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add</button>
+                    </div>
+                </div>
+                <div class="block menu rounded-box bg-gray-800 p-6 rounded text-white overflow-auto xl:h-[70vh] lg:h-[70vh] md:h-[70vh] h-[50vh] scrollbar-thin scrollbar-thumb-stone-800 scrollbar-track-slate-600">
+                    <p class="recipe-list my-1 px-4 py-2 rounded-md xl:text-2xl lg:text-xl text-lg">
+                    </p>
+                </div>
+            </div>
+            <div class="xl:w-3/4 lg:w-3/4 md:w-3/4 w-full mr-4 xl:pt-0 lg:pt-0 md:pt-0 pt-4">
+                <div class="flex justify-between py-2">
+                    <p class="text-white xl:text-3xl lg:text-2xl md:text-xl sm:text-lg text-md"></p>
+                    <div class="flex items-center">
+                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-1">Delete</button>
+                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit</button>
+                    </div>
+                </div>
+                <div class="bg-gray-800 p-6 rounded text-white xl:text-xl lg:text-lg md:text-md text-base overflow-auto xl:h-[70vh] lg:h-[70vh] md:h-[70vh] h-[50vh] scrollbar-thin scrollbar-thumb-stone-800 scrollbar-track-slate-600">
+                    <div>
+                        <p class="text-xl font-bold">Ingredients:</p>
+                        <div class="pl-4">
+                        </div>
+                    </div>
+                    <div class="pt-36">
+                        <p class="text-xl font-bold">Directions:</p>
+                        <div class="pl-4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </template>
 
 <script>
@@ -40,11 +80,24 @@ export default {
     name: 'Home',
     data() {
         return {
+            datas: [],
             isActive: true,
+            loading: false,
+            message: '',
         };
     },
     created() {
-
+        this.role = JSON.parse(localStorage.getItem('user')).role;
+        this.$store.dispatch('admin/getAll').then(
+            (response) => {
+                if (response.state === "success") {
+                    this.datas = response.data;
+                }
+            },
+            (error) => {
+                throw error;
+            }
+        );
     },
     methods: {
         handleUser() {
@@ -58,3 +111,4 @@ export default {
     },
 }
 </script>
+
