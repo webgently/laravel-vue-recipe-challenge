@@ -12,7 +12,7 @@
         <title>Recipe manage</title>
         @vite('resources/css/app.css')
     </head>
-    <body class="bg-gray-50 dark:bg-gray-900 min-h-100vh">
+    <body class="bg-gray-50 dark:bg-gray-900 min-h-100vh scrollbar-thin scrollbar-thumb-stone-800 scrollbar-track-slate-600">
         <div id="app"></div>
         @vite('resources/js/app.js')
     </body>

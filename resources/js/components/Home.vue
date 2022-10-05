@@ -39,32 +39,38 @@
             <div class="xl:w-1/4 lg:w-1/4 md:w-1/4 w-full mr-4">
                 <div class="flex justify-between py-2">
                     <p class="text-white xl:text-3xl lg:text-2xl md:text-xl sm:text-lg text-md">Recipes</p>
-                    <div class="flex items-center">
-                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add</button>
+                    <div v-if="role === 'admin'" class="flex items-center">
+                        <button type="button" @click="openModal(-1)" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add</button>
                     </div>
+                    <div v-else></div>
                 </div>
                 <div class="block menu rounded-box bg-gray-800 p-6 rounded text-white overflow-auto xl:h-[70vh] lg:h-[70vh] md:h-[70vh] h-[50vh] scrollbar-thin scrollbar-thumb-stone-800 scrollbar-track-slate-600">
-                    <p class="recipe-list my-1 px-4 py-2 rounded-md xl:text-2xl lg:text-xl text-lg">
+                    <p v-for="(data, index) in datas" @click="itemSelect(data)" :class="{'active': isSelect === index }"
+                       class="recipe-list my-1 px-4 py-2 rounded-md xl:text-2xl lg:text-xl text-lg">
+                        {{ data.recipe }}
                     </p>
                 </div>
             </div>
             <div class="xl:w-3/4 lg:w-3/4 md:w-3/4 w-full mr-4 xl:pt-0 lg:pt-0 md:pt-0 pt-4">
                 <div class="flex justify-between py-2">
-                    <p class="text-white xl:text-3xl lg:text-2xl md:text-xl sm:text-lg text-md"></p>
-                    <div class="flex items-center">
-                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-1">Delete</button>
-                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit</button>
+                    <p class="text-white xl:text-3xl lg:text-2xl md:text-xl sm:text-lg text-md">{{ element.recipe }}</p>
+                    <div v-if="role === 'admin'" class="flex items-center">
+                        <button type="button" @click="deleteItem(element.id)" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-1">Delete</button>
+                        <button type="button" @click="openModal(element.id)" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit</button>
                     </div>
+                    <div v-else class="pt-9"></div>
                 </div>
                 <div class="bg-gray-800 p-6 rounded text-white xl:text-xl lg:text-lg md:text-md text-base overflow-auto xl:h-[70vh] lg:h-[70vh] md:h-[70vh] h-[50vh] scrollbar-thin scrollbar-thumb-stone-800 scrollbar-track-slate-600">
                     <div>
                         <p class="text-xl font-bold">Ingredients:</p>
                         <div class="pl-4">
+                            {{ element.ingredients }}
                         </div>
                     </div>
                     <div class="pt-36">
                         <p class="text-xl font-bold">Directions:</p>
                         <div class="pl-4">
+                            {{ element.directions }}
                         </div>
                     </div>
                 </div>
@@ -80,7 +86,7 @@
                     <h3 class="text-xl font-medium text-gray-900 dark:text-white">
                         Add a Recipe
                     </h3>
-                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="medium-modal">
+                    <button type="button" @click="closeModal" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="medium-modal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         <span class="sr-only">Close modal</span>
                     </button>
@@ -89,25 +95,25 @@
                     <div class="space-y-4 md:space-y-6">
                         <div>
                             <label for="recipe" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Recipe</label>
-                            <input name="recipe" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Recipe Name" />
+                            <input name="recipe" type="text" v-model="formValues.recipe" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Recipe Name" />
                         </div>
                         <div class="pt-2">
                             <label for="ingredients" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingredients</label>
-                            <textarea id="ingredients" name="ingredients" placeholder="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                            <textarea id="ingredients" name="ingredients" v-model="formValues.ingredients" placeholder="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                         </div>
                         <div class="pt-2">
                             <label for="directions" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Directions</label>
-                            <textarea id="directions" name="directions" placeholder="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                            <textarea id="directions" name="directions" v-model="formValues.directions" placeholder="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                         </div>
                         <div v-if="message" class="alert alert-danger py-4" role="alert">
                             {{ message }}
                         </div><br>
                         <div class="flex justify-end items-center pt-4 px-4 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-                            <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <button @click="handleSave" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                                 Save
                             </button>
-                            <button type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button>
+                            <button type="button" @click="closeModal" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -123,9 +129,15 @@ export default {
     data() {
         return {
             datas: [],
+            formValues: {},
+            element: {},
+            isSelect: -1,
             isActive: true,
+            isDialog: true,
+            isSave: true,
             loading: false,
             message: '',
+            role: '',
         };
     },
     created() {
@@ -150,7 +162,98 @@ export default {
             this.$store.dispatch('auth/logout');
             this.$router.push('/login');
         },
+
+        openModal(id) {
+            if(id === -1){
+                this.formValues = {};
+                this.isSave = true;
+            } else if(id > -1) {
+                this.formValues = { ...this.element };
+                this.isSave = false;
+            } else {
+                alert("please select item")
+                return;
+            }
+            this.isDialog = false;
+        },
+
+        closeModal() {
+            this.isDialog = true;
+            this.formValues = {};
+        },
+
+        handleSave() {
+            if (!this.formValues.recipe) {
+                alert('Recipe name is required!');
+            } else if (!this.formValues.ingredients) {
+                alert('Ingredients is required!');
+            } else if (!this.formValues.directions) {
+                alert('Directions is required!');
+            } else {
+                this.loading = true;
+                if ( this.isSave ) {
+                    this.$store.dispatch('admin/add', this.formValues).then(
+                        (response) => {
+                            if(response.state === "success") {
+                                this.isDialog = true;
+                                this.datas.push(response.data);
+                                this.element = response.data;
+                                this.formValues = {};
+                                this.isSelect = this.datas.length - 1;
+                            }
+                        },
+                        (error) => {
+                            this.loading = false;
+                            throw error;
+                        }
+                    );
+                } else {
+                    this.$store.dispatch('admin/update', this.formValues ).then(
+                        (response) => {
+                            if (response.state === "success") {
+                                this.isDialog = true;
+                                const index = this.datas.findIndex(x => Number(x.id) === Number(this.formValues.id));
+                                this.datas[index] = {...response.data};
+                                this.element = response.data;
+                                this.formValues = {};
+                            }
+                        },
+                        (error) => {
+                            this.loading = false;
+                            throw error;
+                        }
+                    );
+                }
+            }
+        },
+
+        deleteItem(id) {
+            if ( id ) {
+                this.$store.dispatch('admin/delete', id).then(
+                    (response) => {
+                        if (response.state === "success") {
+                            this.isDialog = true;
+                            const index = this.datas.findIndex(x => Number(x.id) === Number(id));
+                            this.datas.splice(index, 1);
+                            this.element = {};
+                            this.formValues = {};
+                            this.isSelect = -1;
+                        }
+                    },
+                    (error) => {
+                        this.loading = false;
+                        throw error;
+                    }
+                );
+            } else {
+                alert('Please select item');
+            }
+        },
+
+        itemSelect(data) {
+            this.element = data;
+            this.isSelect = this.datas.findIndex(x => Number(x.id) === Number(this.element.id));
+        },
     },
 }
 </script>
-

@@ -13,3 +13,24 @@
 * {
     font-family: 'Montserrat', sans-serif;
 }
+
+p,
+button {
+    font-family: 'Mulish', sans-serif;
+}
+
+.recipe-list {
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.recipe-list:hover {
+    cursor: pointer;
+    background-color: #3d4852;
+}
+
+.active {
+    background-color: #6419e6;
+}

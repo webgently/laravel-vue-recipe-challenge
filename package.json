@@ -16,7 +16,12 @@
     },
     "dependencies": {
         "@vitejs/plugin-vue": "^3.1.2",
+        "tailwind-scrollbar": "^2.0.1",
+        "vee-validate": "^4.6.10",
         "vue": "^3.2.36",
-        "vue-loader": "^17.0.0"
+        "vue-loader": "^17.0.0",
+        "vue-router": "^4.1.5",
+        "vuex": "^4.0.2",
+        "yup": "^0.32.11"
     }
 }
