@@ -34,11 +34,15 @@ Install the databases
 
     php artisan migrate
 
-Start the local development server2
+Start the local development server1
 
     npm run dev
 
-Start the local development server1
+or
+
+    npm run build
+    
+Start the local development server
 
     php artisan serve
 
@@ -57,6 +61,8 @@ You can now access the server at http://localhost:8000
 **start server**
 
     npm run dev
+    or
+    npm run build
     php artisan serve
 
 **project reference**
