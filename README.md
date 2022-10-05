@@ -4,6 +4,8 @@
 
 ### Installation
 
+Starting mysql server
+
 Clone the repository
 
     git clone https://github.com/webgently/recipe-manage.git
