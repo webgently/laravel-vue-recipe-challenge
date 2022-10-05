@@ -65,5 +65,35 @@ export default {
             schema,
         };
     },
+    computed: {
+        loggedIn() {
+            return this.$store.state.auth.status.loggedIn;
+        },
+    },
+    created() {
+        if (this.loggedIn) {
+            this.$router.push('/home');
+        }
+    },
+    methods: {
+        handleLogin(user) {
+            this.loading = true;
+            this.$store.dispatch('auth/login', user).then(
+                (response) => {
+                    if (response.state === "success") {
+                        this.$router.push('/home');
+                    } else {
+                        this.loading = false;
+                        this.message = response.msg;
+                    }
+                },
+                (error) => {
+                    this.loading = false;
+                    this.message =
+                        (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+                }
+            );
+        },
+    },
 };
 </script>
