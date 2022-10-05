@@ -42,7 +42,7 @@ or
 
     npm run build
     
-Start the local development server
+Start the local development server2
 
     php artisan serve
 
