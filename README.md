@@ -73,4 +73,4 @@ You can now access the server at http://localhost:8000
 **user role**
 
 - You are going to work with admin role : Please register and login  `mail: admin@gmail.com, name: admin` (only).
-- You are going to work with user role : `mail: liuwentalent0811@gmail.com, name: Liu Wen` (anyway).
+- You are going to work with user role : `mail: gently039@gmail.com, name: Passionate` (anyway).
