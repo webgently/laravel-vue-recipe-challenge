@@ -1,4 +1,4 @@
-# recipe-manage-vue-laravel
+# laravel-vue-recipe-challenge
 
 ## Getting started
 
@@ -8,11 +8,11 @@ Starting mysql server
 
 Clone the repository
 
-    git clone https://github.com/webgently/recipe-manage.git
+    git clone https://github.com/webgently/laravel-vue-recipe-challenge.git
 
 Switch to the repo folder
 
-    cd recipe-manage
+    cd laravel-vue-recipe-challenge
 
 Install all the dependencies using composer
 
